@@ -287,9 +287,9 @@
   .merch-item::before { content:''; position:absolute; inset:0; background:linear-gradient(165deg, rgba(91,106,255,.06) 0%, transparent 50%); }
   .merch-preview { position:relative; padding:36px 28px; display:flex; justify-content:center; align-items:center; min-height:260px; }
   .merch-tee { position:relative; width:180px; }
-  .tee-body { width:180px; height:200px; background:var(--navy-mid); border-radius:4px 4px 0 0; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .tee-body { width:180px; height:200px; background:var(--navy-mid); border-radius:4px 4px 0 0; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:background .3s; }
   .tee-body::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:50px; height:14px; background:var(--navy); border-radius:0 0 25px 25px; }
-  .tee-sleeve-l, .tee-sleeve-r { position:absolute; top:0; width:40px; height:60px; background:var(--navy-mid); }
+  .tee-sleeve-l, .tee-sleeve-r { position:absolute; top:0; width:40px; height:60px; background:var(--navy-mid); transition:background .3s; }
   .tee-sleeve-l { left:-30px; border-radius:0 0 0 8px; transform:skewX(8deg); }
   .tee-sleeve-r { right:-30px; border-radius:0 0 8px 0; transform:skewX(-8deg); }
   .tee-design { position:relative; text-align:center; z-index:1; }
@@ -302,10 +302,11 @@
   .merch-name { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:800; text-transform:uppercase; color:var(--white); margin-bottom:4px; }
   .merch-desc { font-size:11px; color:var(--muted); line-height:1.5; }
   .merch-colorways { display:flex; gap:6px; margin-top:10px; }
-  .merch-color { width:16px; height:16px; border-radius:50%; border:2px solid var(--navy-light); }
+  .merch-color { width:16px; height:16px; border-radius:50%; border:2px solid var(--navy-light); cursor:pointer; transition:border-color .2s, transform .15s; }
+  .merch-color:hover { transform:scale(1.2); }
   .merch-color.active { border-color:var(--gold); }
-  .hoodie-body { width:180px; height:210px; background:var(--navy-mid); border-radius:4px; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-  .hoodie-body::before { content:''; position:absolute; top:-12px; left:50%; transform:translateX(-50%); width:60px; height:24px; background:var(--navy-mid); border-radius:12px 12px 0 0; }
+  .hoodie-body { width:180px; height:210px; background:var(--navy-mid); border-radius:4px; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:background .3s; }
+  .hoodie-body::before { content:''; position:absolute; top:-12px; left:50%; transform:translateX(-50%); width:60px; height:24px; background:inherit; border-radius:12px 12px 0 0; }
   .hoodie-body::after { content:''; position:absolute; top:6px; left:50%; transform:translateX(-50%); width:1px; height:50px; background:rgba(255,255,255,.06); }
   .hoodie-pocket { position:absolute; bottom:30px; left:50%; transform:translateX(-50%); width:70px; height:30px; border:1px solid rgba(255,255,255,.05); border-radius:0 0 4px 4px; border-top:none; }
   .hoodie-strings { position:absolute; top:10px; left:50%; transform:translateX(-50%); display:flex; gap:8px; }
@@ -1056,12 +1057,12 @@
     <div class="merch-item" id="capture-merch-tee">
       <div class="merch-preview">
         <div class="merch-tee">
-          <div class="tee-body">
+          <div class="tee-body" id="tee-garment">
             <div class="tee-sleeve-l"></div>
             <div class="tee-sleeve-r"></div>
             <div class="tee-design">
-              <div class="tee-logo">Layton<span>Gaming</span></div>
-              <div class="tee-sub">Orlando, FL · Est. 2020</div>
+              <div class="tee-logo" id="tee-logo-text">Layton<span>Gaming</span></div>
+              <div class="tee-sub" id="tee-sub-text">Orlando, FL · Est. 2020</div>
             </div>
           </div>
         </div>
@@ -1071,9 +1072,9 @@
         <div class="merch-name">Staff Tee — Tournament Series</div>
         <div class="merch-desc">Front logo print · Event staff identifier for tournaments and live events</div>
         <div class="merch-colorways">
-          <div class="merch-color active" style="background:var(--navy-mid)"></div>
-          <div class="merch-color" style="background:#1A1A1A"></div>
-          <div class="merch-color" style="background:var(--white)"></div>
+          <div class="merch-color active" style="background:#111535" data-color="#111535" data-text="light" onclick="swapTee(this)"></div>
+          <div class="merch-color" style="background:#1A1A1A" data-color="#1A1A1A" data-text="light" onclick="swapTee(this)"></div>
+          <div class="merch-color" style="background:#FFFFFF" data-color="#FFFFFF" data-text="dark" onclick="swapTee(this)"></div>
         </div>
       </div>
     </div>
@@ -1081,12 +1082,12 @@
     <div class="merch-item" id="capture-merch-hoodie">
       <div class="merch-preview">
         <div class="merch-tee">
-          <div class="hoodie-body">
+          <div class="hoodie-body" id="hoodie-garment">
             <div class="hoodie-strings"></div>
             <div class="hoodie-pocket"></div>
             <div class="tee-design sports">
-              <div class="tee-logo">Layton<span>Sports Cards</span></div>
-              <div class="tee-sub">Collect · Trade · Compete</div>
+              <div class="tee-logo" id="hoodie-logo-text">Layton<span>Sports Cards</span></div>
+              <div class="tee-sub" id="hoodie-sub-text">Collect · Trade · Compete</div>
             </div>
           </div>
         </div>
@@ -1096,9 +1097,9 @@
         <div class="merch-name">Branded Hoodie — Collector Edition</div>
         <div class="merch-desc">Center chest logo · Premium heavyweight cotton · Event exclusive merch</div>
         <div class="merch-colorways">
-          <div class="merch-color active" style="background:var(--navy-mid)"></div>
-          <div class="merch-color" style="background:#1A1008"></div>
-          <div class="merch-color" style="background:#2A2A2A"></div>
+          <div class="merch-color active" style="background:#111535" data-color="#111535" data-text="light" onclick="swapHoodie(this)"></div>
+          <div class="merch-color" style="background:#1A1008" data-color="#1A1008" data-text="light" onclick="swapHoodie(this)"></div>
+          <div class="merch-color" style="background:#2A2A2A" data-color="#2A2A2A" data-text="light" onclick="swapHoodie(this)"></div>
         </div>
       </div>
     </div>
@@ -1248,6 +1249,48 @@ async function downloadEl(id, filename) {
   }
   btn.classList.remove('loading');
   btn.innerHTML = `<svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download PNG`;
+}
+
+function swapTee(swatch) {
+  var color = swatch.dataset.color;
+  var isDark = swatch.dataset.text === 'light';
+  // Update active state
+  swatch.parentElement.querySelectorAll('.merch-color').forEach(function(s) { s.classList.remove('active'); });
+  swatch.classList.add('active');
+  // Update garment color
+  var body = document.getElementById('tee-garment');
+  var sleeveL = body.querySelector('.tee-sleeve-l');
+  var sleeveR = body.querySelector('.tee-sleeve-r');
+  body.style.background = color;
+  sleeveL.style.background = color;
+  sleeveR.style.background = color;
+  // Neck cutout
+  body.style.setProperty('--neck-color', isDark ? '#0B0E1F' : '#E2E0F0');
+  // Update text color
+  var logo = document.getElementById('tee-logo-text');
+  var sub = document.getElementById('tee-sub-text');
+  logo.style.color = isDark ? '#FFFFFF' : '#0B0E1F';
+  logo.querySelector('span').style.color = isDark ? '#5B6AFF' : '#5B6AFF';
+  sub.style.color = isDark ? '#8085A8' : '#666';
+}
+
+function swapHoodie(swatch) {
+  var color = swatch.dataset.color;
+  var isDark = swatch.dataset.text === 'light';
+  // Update active state
+  swatch.parentElement.querySelectorAll('.merch-color').forEach(function(s) { s.classList.remove('active'); });
+  swatch.classList.add('active');
+  // Update garment color
+  var body = document.getElementById('hoodie-garment');
+  body.style.background = color;
+  // Hood pseudo-element can't be styled directly, so use CSS variable
+  body.style.setProperty('--hood-bg', color);
+  // Update text color
+  var logo = document.getElementById('hoodie-logo-text');
+  var sub = document.getElementById('hoodie-sub-text');
+  logo.style.color = isDark ? '#FFFFFF' : '#0B0E1F';
+  logo.querySelector('span').style.color = isDark ? '#D4A843' : '#D4A843';
+  sub.style.color = isDark ? '#8085A8' : '#666';
 }
 </script>
 </body>
